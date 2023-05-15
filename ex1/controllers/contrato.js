@@ -21,21 +21,6 @@ module.exports.listByYear = (year) => {
     });
 };
 
-db.contracts.aggregate([
-  {
-    $project: {
-      year: {
-        $toInt: {
-          $substr: ["$DataInicioContrato", 6, 4],
-        },
-      },
-    },
-  },
-  { $group: { _id: "$year", count: { $sum: 1 } } },
-  { $sort: { _id: 1 } },
-  { $project: { ano: "$_id", numero: "$count", _id: 0 } },
-]);
-
 module.exports.listByInst = (inst) => {
   return Contrato.find({ NIPCInstituicao: inst })
     .then((contratos) => {
